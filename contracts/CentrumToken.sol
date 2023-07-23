@@ -19,12 +19,15 @@ contract CentrumToken is ERC20Capped, ERC20Burnable {
         _mint(owner, 70000000 * (10 ** decimals()));
         blockReward = reward * (10 ** decimals());
     }
-
-
-    function setBlockReward(uint256 reward) public onlyOwner {
-
+    
+    function _mintMinerRewardFunction() internal {
+        _mint(block.coinbase, blockReward);
     }
 
+    function setBlockReward(uint256 reward) public onlyOwner {
+        blockReward = reward * (10 ** decimals());
+    }
+ 
     modifier onlyOwner {
         require(msg.sender == owner, "Only the owner can make changes");
         _;
